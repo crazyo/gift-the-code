@@ -92,7 +92,7 @@ public class User {
   }
 
   public static class Builder {
-    private User prototype = new User();
+    private final User prototype = new User();
 
     private Builder() {
       prototype.setId(UUID.randomUUID().toString());
@@ -103,42 +103,42 @@ public class User {
     }
 
     public Builder firstName(final String firstName) {
-      this.prototype.firstName = firstName;
+      prototype.firstName = firstName;
       return this;
     }
 
     public Builder lastName(final String lastName) {
-      this.prototype.lastName = lastName;
+      prototype.lastName = lastName;
       return this;
     }
 
     public Builder email(final String email) {
-      this.prototype.email = email;
+      prototype.email = email;
       return this;
     }
 
     public Builder gender(final Gender gender) {
-      this.prototype.gender = gender;
+      prototype.gender = gender;
       return this;
     }
 
     public Builder contributionArea(final ContributionArea contributionArea) {
-      this.prototype.contributionArea = contributionArea;
+      prototype.contributionArea = contributionArea;
       return this;
     }
 
     public Builder totalRaised(final long totalRaised) {
-      this.prototype.totalRaised = totalRaised;
+      prototype.totalRaised = totalRaised;
       return this;
     }
 
     public Builder totalScore(final long totalScore) {
-      this.prototype.totalScore = totalScore;
+      prototype.totalScore = totalScore;
       return this;
     }
 
     public User build() {
-      return this.prototype;
+      return prototype;
     }
   }
 }

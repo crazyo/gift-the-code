@@ -29,6 +29,7 @@ public class MockUserDatabase implements UserDataSource {
     );
   }
 
+  @Override
   public User getUser(final String id) {
     return users.get(id);
   }
