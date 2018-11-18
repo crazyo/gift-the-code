@@ -7,7 +7,9 @@ import com.movember.contribution.dto.ContributionRequest;
 import com.movember.contribution.dto.UserContributionPerAreaResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,5 +46,16 @@ public class ContributionService {
             .contributionArea(contributionRequest.getContributionArea())
             .build()
     );
+
+    RestTemplate restTemplate = new RestTemplate();
+    String url = "http://localhost:9001/user-raised";
+    url += "?userId=" + contributionRequest.getUserId();
+    url += "&raised=" + contributionRequest.getAmount();
+    System.out.println(restTemplate.getForEntity(url, Void.class));
+
+    url = "http://localhost:9001/user-points";
+    url += "?userId=" + contributionRequest.getUserId();
+    url += "&points=" + contributionRequest.getAmount() * 2;
+    System.out.println(restTemplate.getForEntity(url, Void.class));
   }
 }

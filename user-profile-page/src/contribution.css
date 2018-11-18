@@ -1,0 +1,34 @@
+.contribution-bar-wrapper {
+	margin-bottom: 10px;
+}
+
+.contribution-bar-wrapper .progress {
+	height: 25px;
+	font-size: 25px;
+	color: white;
+	font-weight: bold;
+}
+
+.progress-side-label {
+	position: absolute;
+	right: 10px;
+	color: black;
+	line-height: 25px;
+}
+
+.contribution-bar-wrapper-title {
+	text-align: center;
+}
+
+.progress-bar {
+	margin-bottom: 5px;
+}
+
+.progress-side-label-completed {
+	color: green;
+}
+
+#contr-area-label {
+	font-size: 0.75em;
+	font-weight: normal;
+}

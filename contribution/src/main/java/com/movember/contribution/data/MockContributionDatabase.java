@@ -37,7 +37,7 @@ public class MockContributionDatabase implements ContributionDataSource {
     contributions.add(
         Contribution.newBuilder()
             .userId(TEST_USER_ID)
-            .amount(400)
+            .amount(450)
             .contributionArea(ContributionArea.MENTAL_HEALTH_AND_SUICIDE_PREVENTION)
             .build()
     );

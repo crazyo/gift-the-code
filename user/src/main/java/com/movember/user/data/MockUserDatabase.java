@@ -11,6 +11,7 @@ import java.util.Map;
 public class MockUserDatabase implements UserDataSource {
 
   private static final String TEST_USER_ID = "1234abcd";
+  private static final String TEST_USER_ID_2 = "123abc";
 
   private static final Map<String, User> users = new HashMap<>();
 
@@ -25,6 +26,14 @@ public class MockUserDatabase implements UserDataSource {
             .contributionArea(ContributionArea.MENTAL_HEALTH_AND_SUICIDE_PREVENTION)
             .totalRaised(500)
             .totalScore(1000)
+            .build()
+    );
+
+    users.put(
+        TEST_USER_ID_2,
+        User.newBuilder(TEST_USER_ID_2)
+            .totalRaised(0)
+            .totalScore(0)
             .build()
     );
   }

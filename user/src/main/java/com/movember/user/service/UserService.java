@@ -19,4 +19,14 @@ public class UserService {
   public User getUser(final String id) {
     return userDataSource.getUser(id);
   }
+
+  public void addUserPoints(final String userId, final long points) {
+    User user = userDataSource.getUser(userId);
+    user.setTotalScore(user.getTotalScore() + points);
+  }
+
+  public void addUserRaised(final String userId, final long raised) {
+    User user = userDataSource.getUser(userId);
+    user.setTotalRaised(user.getTotalRaised() + raised);
+  }
 }
