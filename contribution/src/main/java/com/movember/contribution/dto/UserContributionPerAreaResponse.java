@@ -2,7 +2,7 @@ package com.movember.contribution.dto;
 
 import com.movember.contribution.data.ContributionArea;
 
-public class UserContributionPerArea {
+public class UserContributionPerAreaResponse {
   private ContributionArea contributionArea;
   private long userAmount;
   private long totalAmount;

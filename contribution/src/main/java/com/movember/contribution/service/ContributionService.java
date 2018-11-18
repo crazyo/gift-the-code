@@ -1,14 +1,16 @@
 package com.movember.contribution.service;
 
 import com.movember.contribution.data.Contribution;
+import com.movember.contribution.data.ContributionArea;
 import com.movember.contribution.data.ContributionDataSource;
-import com.movember.contribution.dto.UserContributionPerArea;
+import com.movember.contribution.dto.ContributionRequest;
+import com.movember.contribution.dto.UserContributionPerAreaResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ContributionService {
@@ -20,29 +22,27 @@ public class ContributionService {
     this.contributionDataSource = contributionDataSource;
   }
 
-  public List<UserContributionPerArea> getUserContributionsForAllAreas(String userId) {
-    List<UserContributionPerArea> result = new ArrayList<>();
+  public Map<ContributionArea, UserContributionPerAreaResponse> getUserContributionsForAllAreas(String userId) {
+    Map<ContributionArea, UserContributionPerAreaResponse> result = new HashMap<>();
 
-    List<Contribution> userContributions = contributionDataSource.getUserContributions(userId);
-    userContributions
-        .stream()
-        .map(Contribution::getContributionArea)
-        .distinct()
-        .forEach(userContributionArea -> {
-          UserContributionPerArea item = new UserContributionPerArea();
-          item.setContributionArea(userContributionArea);
-          item.setTotalAmount(contributionDataSource.getContributionAreaTotal(userContributionArea));
-          item.setUserAmount(
-              userContributions
-                  .stream()
-                  .filter(contribution -> userContributionArea.equals(contribution.getContributionArea()))
-                  .map(Contribution::getAmount)
-                  .reduce(Long::sum)
-                  .orElse(0L)
-          );
-          result.add(item);
-        });
+    for (ContributionArea contributionArea : ContributionArea.values()) {
+      UserContributionPerAreaResponse item = new UserContributionPerAreaResponse();
+      item.setContributionArea(contributionArea);
+      item.setUserAmount(contributionDataSource.getContributionAreaUser(userId, contributionArea));
+      item.setTotalAmount(contributionDataSource.getContributionAreaTotal(contributionArea));
+      result.put(contributionArea, item);
+    }
 
     return result;
+  }
+
+  public void createContribution(final ContributionRequest contributionRequest) {
+    contributionDataSource.createContribution(
+        Contribution.newBuilder()
+            .userId(contributionRequest.getUserId())
+            .amount(contributionRequest.getAmount())
+            .contributionArea(contributionRequest.getContributionArea())
+            .build()
+    );
   }
 }

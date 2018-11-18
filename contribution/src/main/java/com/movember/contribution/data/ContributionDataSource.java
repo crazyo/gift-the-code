@@ -1,8 +1,7 @@
 package com.movember.contribution.data;
 
-import java.util.List;
-
 public interface ContributionDataSource {
-  List<Contribution> getUserContributions(final String userId);
+  long getContributionAreaUser(final String userId, final ContributionArea contributionArea);
   long getContributionAreaTotal(final ContributionArea contributionArea);
+  void createContribution(final Contribution contribution);
 }

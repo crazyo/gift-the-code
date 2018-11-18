@@ -6,7 +6,6 @@ public class Contribution {
   private String id;
   private String userId;
   private long amount;
-  private String programName;
   private ContributionArea contributionArea;
 
   public String getId() {
@@ -31,14 +30,6 @@ public class Contribution {
 
   public void setAmount(final long amount) {
     this.amount = amount;
-  }
-
-  public String getProgramName() {
-    return programName;
-  }
-
-  public void setProgramName(final String programName) {
-    this.programName = programName;
   }
 
   public ContributionArea getContributionArea() {
@@ -67,11 +58,6 @@ public class Contribution {
 
     public Builder amount(final long amount) {
       prototype.amount = amount;
-      return this;
-    }
-
-    public Builder programName(final String programName) {
-      prototype.programName = programName;
       return this;
     }
 

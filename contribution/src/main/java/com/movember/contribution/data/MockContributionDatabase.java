@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class MockContributionDatabase implements ContributionDataSource {
@@ -16,9 +15,22 @@ public class MockContributionDatabase implements ContributionDataSource {
   static {
     contributions.add(
         Contribution.newBuilder()
+            .userId("other_user_01")
+            .amount(1000)
+            .contributionArea(ContributionArea.PROSTATE_CANCER)
+            .build()
+    );
+    contributions.add(
+        Contribution.newBuilder()
             .userId(TEST_USER_ID)
             .amount(50)
-            .programName("TEST TEST TESTICULAR!")
+            .contributionArea(ContributionArea.TESTICULAR_CANCER)
+            .build()
+    );
+    contributions.add(
+        Contribution.newBuilder()
+            .userId("other_user_02")
+            .amount(1500)
             .contributionArea(ContributionArea.TESTICULAR_CANCER)
             .build()
     );
@@ -26,17 +38,26 @@ public class MockContributionDatabase implements ContributionDataSource {
         Contribution.newBuilder()
             .userId(TEST_USER_ID)
             .amount(400)
-            .programName("MENtal HELP")
             .contributionArea(ContributionArea.MENTAL_HEALTH_AND_SUICIDE_PREVENTION)
-            .build());
+            .build()
+    );
+    contributions.add(
+        Contribution.newBuilder()
+            .userId("other_user_03")
+            .amount(100)
+            .contributionArea(ContributionArea.MENTAL_HEALTH_AND_SUICIDE_PREVENTION)
+            .build()
+    );
   }
 
   @Override
-  public List<Contribution> getUserContributions(final String userId) {
+  public long getContributionAreaUser(final String userId, final ContributionArea contributionArea) {
     return contributions
         .stream()
-        .filter(contribution -> userId.equals(contribution.getUserId()))
-        .collect(Collectors.toList());
+        .filter(contribution -> userId.equals(contribution.getUserId()) && contributionArea == contribution.getContributionArea())
+        .map(Contribution::getAmount)
+        .reduce(Long::sum)
+        .orElse(0L);
   }
 
   @Override
@@ -47,5 +68,10 @@ public class MockContributionDatabase implements ContributionDataSource {
         .map(Contribution::getAmount)
         .reduce(Long::sum)
         .orElse(0L);
+  }
+
+  @Override
+  public void createContribution(final Contribution contribution) {
+    contributions.add(contribution);
   }
 }
